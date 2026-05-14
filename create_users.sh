@@ -2,7 +2,7 @@
 # Check if script is run as root
 if [ "$EUID" -ne 0 ]; then
     echo "Måste köras som root"
-    exit
+    exit 1
 fi
 
 
