@@ -6,10 +6,6 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 
-# List of all beforehand created users with home directories
-ALL_USERS=$(ls /home/)
-
-
 # Create users
 for user in $@
 do
@@ -22,11 +18,21 @@ do
         useradd -m "$user"
         mkdir "/home/$user/Documents/"
         mkdir "/home/$user/Downloads/"
-        mkdir "/home/$user/Work/"
-        echo "Välkommen $user" > "/home/$user/welcome.txt"
-        echo "$ALL_USERS" >> "/home/$user/welcome.txt"       
+        mkdir "/home/$user/Work/"      
         chown -R "$user:$user" "/home/$user/"
         chmod -R 700 "/home/$user/"
         echo "User $user created"
     fi
+done
+
+
+# List of all users
+ALL_USERS=$(ls /home/)
+
+
+# Create welcome file
+for user in $@
+do
+    echo "Välkommen $user" > "/home/$user/welcome.txt"
+    echo "$ALL_USERS" >> "/home/$user/welcome.txt"
 done
